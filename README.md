@@ -16,19 +16,23 @@ A React-based application that uses Amazon Bedrock's Claude 3 Sonnet model to tr
 
 This application uses a **direct frontend-to-AWS** architecture rather than the traditional client-server pattern. Here's why:
 
-┌─────────────────┐ ┌─────────────────┐
-│ React App │───▶│ Amazon Bedrock │
-│ (Frontend) │ │ (Claude 3) │
-└─────────────────┘ └─────────────────┘
+```
+┌─────────────────┐    ┌─────────────────┐
+│   React App     │───▶│  Amazon Bedrock │
+│   (Frontend)    │    │   (Claude 3)    │
+└─────────────────┘    └─────────────────┘
+```
 
 ### Alternative: Traditional Backend Architecture
 
 The original requirements specified a Java/Spring backend:
 
-┌─────────────┐ ┌─────────────────┐ ┌─────────────────┐
-│ React App │───▶│ Java Backend │───▶│ Amazon Bedrock │
-│ (Frontend) │ │ (Spring) │ │ (Claude 3) │
-└─────────────┘ └─────────────────┘ └─────────────────┘
+```
+┌─────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│ React App   │───▶│  Java Backend   │───▶│  Amazon Bedrock │
+│ (Frontend)  │    │   (Spring)      │    │   (Claude 3)    │
+└─────────────┘    └─────────────────┘    └─────────────────┘
+```
 
 ### Why We Chose Direct Integration
 
@@ -78,25 +82,33 @@ The original requirements specified a Java/Spring backend:
 2. API Gateway + Lambda for serverless backend
 3. IAM roles with minimal permissions
 4. Request signing and validation
+```
 
-Conclusion
-For this AI text transformation use case, direct AWS integration provides the optimal balance of simplicity, performance, and functionality. The architecture supports the core requirements while maintaining development velocity and deployment simplicity.
+### Conclusion
+
+For this AI text transformation use case, **direct AWS integration provides the optimal balance of simplicity, performance, and functionality**. The architecture supports the core requirements while maintaining development velocity and deployment simplicity.
+
 This decision can be revisited as requirements evolve toward enterprise features like user management, audit logging, or complex business workflows.
-🚀 Quick Start
-Prerequisites
 
-Node.js 18+ and npm
-AWS Account with appropriate permissions
-Git
+## 🚀 Quick Start
 
-1. Clone and Install
+### Prerequisites
 
+- Node.js 18+ and npm
+- AWS Account with appropriate permissions
+- Git
+
+### 1. Clone and Install
+
+```bash
 git clone <repository-url>
 cd ai-text-transformer
 npm install
+```
 
-2. AWS CLI Setup
+### 2. AWS CLI Setup
 
+```bash
 # Install AWS CLI (if not installed)
 # Windows: Download from AWS website
 # Mac: brew install awscli
@@ -110,105 +122,96 @@ aws sts get-caller-identity
 
 # Verify Bedrock access
 aws bedrock list-foundation-models --region us-east-1
+```
 
-3. AWS Console Configuration
-3.1 Create IAM User with Bedrock Access
+### 3. AWS Console Configuration
 
-Navigate to IAM Console: https://console.aws.amazon.com/iam/
-Create User:
+#### 3.1 Create IAM User with Bedrock Access
 
-Click "Users" → "Create user"
-Enter username and select "Programmatic access"
-Click "Next: Permissions"
+1. **Navigate to IAM Console**: https://console.aws.amazon.com/iam/
+2. **Create User**:
+   - Click **"Users"** → **"Create user"**
+   - Enter username and select **"Programmatic access"**
+   - Click **"Next: Permissions"**
+3. **Attach Policies**:
+   - Select **"Attach policies directly"**
+   - Search and attach **"AmazonBedrockFullAccess"**
+   - Click **"Next"** → **"Create user"**
+4. **Create Access Keys**:
+   - Go to **"Users"** → Select your user → **"Security credentials"**
+   - Click **"Create access key"**
+   - Select **"Command Line Interface (CLI)"**
+   - **Save the Access Key ID and Secret Access Key**
 
+#### 3.2 Request Bedrock Model Access
 
-Attach Policies:
+1. **Navigate to Bedrock Console**: https://console.aws.amazon.com/bedrock/
+   - **Important**: Ensure you're in the **us-east-1** region
+2. **Request Model Access**:
+   - Click **"Model access"** in the left sidebar
+   - Click **"Request model access"** or **"Modify model access"**
+   - Find **"Anthropic"** section and enable:
+     - ✅ **Claude 3 Sonnet**
+     - ✅ **Claude 3 Haiku** (optional)
+   - Click **"Request access"**
+   - Wait for approval (usually instant)
+3. **Verify Access**:
+   - Go to **"Playgrounds"** → **"Chat"**
+   - Select **"Anthropic Claude 3 Sonnet"**
+   - Send a test message to confirm access
 
-Select "Attach policies directly"
-Search and attach "AmazonBedrockFullAccess"
-Click "Next" → "Create user"
+### 4. Environment Configuration
 
+#### Quick Setup
 
-Create Access Keys:
-
-Go to "Users" → Select your user → "Security credentials"
-Click "Create access key"
-Select "Command Line Interface (CLI)"
-Save the Access Key ID and Secret Access Key
-
-
-
-3.2 Request Bedrock Model Access
-
-Navigate to Bedrock Console: https://console.aws.amazon.com/bedrock/
-
-Important: Ensure you're in the us-east-1 region
-
-
-Request Model Access:
-
-Click "Model access" in the left sidebar
-Click "Request model access" or "Modify model access"
-Find "Anthropic" section and enable:
-
-✅ Claude 3 Sonnet
-✅ Claude 3 Haiku (optional)
-
-
-Click "Request access"
-Wait for approval (usually instant)
-
-
-Verify Access:
-
-Go to "Playgrounds" → "Chat"
-Select "Anthropic Claude 3 Sonnet"
-Send a test message to confirm access
-
-
-
-4. Environment Configuration
-Quick Setup
-
+```bash
 cp .env.example .env.local
+```
 
-Edit .env.local with your actual AWS credentials:
+Edit `.env.local` with your actual AWS credentials:
 
+```bash
 VITE_AWS_ACCESS_KEY=AKIA...your-actual-access-key
 VITE_AWS_SECRET_KEY=your-actual-secret-access-key
 VITE_AWS_DEFAULT_REGION=us-east-1
+```
 
-Environment Files
+#### Environment Files
 
-.env - Default config (committed)
-.env.local - Your secrets (never committed)
-.env.example - Setup template (committed)
+- `.env` - Default config (committed)
+- `.env.local` - Your secrets (**never committed**)
+- `.env.example` - Setup template (committed)
 
-⚠️ Security: Never commit .env.local - it contains your AWS credentials and is automatically ignored by Git.
+**⚠️ Security**: Never commit `.env.local` - it contains your AWS credentials and is automatically ignored by Git.
 
-5. Start Development Server
+### 5. Start Development Server
 
+```bash
 npm run dev
+```
 
-Visit http://localhost:5173 to see the application!
-🎯 Features
-Text Transformation
+Visit `http://localhost:5173` to see the application!
 
-Input: Any text up to 5,000 characters
-Available Tones: Professional, Casual, Sarcastic, Friendly, Academic, Formal, Humorous, Persuasive, Empathetic, Confident
-Output: Transformed text with AI-generated title
-Error Handling: Graceful fallbacks for malformed AI responses
+## 🎯 Features
 
-User Experience
+### Text Transformation
 
-Real-time character counting with limits
-Loading states with spinners
-Copy to clipboard functionality
-Form validation with helpful error messages
-Responsive design for all devices
+- **Input**: Any text up to 5,000 characters
+- **Available Tones**: Professional, Casual, Sarcastic, Friendly, Academic, Formal, Humorous, Persuasive, Empathetic, Confident
+- **Output**: Transformed text with AI-generated title
+- **Error Handling**: Graceful fallbacks for malformed AI responses
 
-🔧 Key Dependencies
+### User Experience
 
+- Real-time character counting with limits
+- Loading states with spinners
+- Copy to clipboard functionality
+- Form validation with helpful error messages
+- Responsive design for all devices
+
+## 🔧 Key Dependencies
+
+```json
 {
 	"@aws-sdk/client-bedrock-runtime": "^3.855.0",
 	"react": "^18.x.x",
@@ -216,9 +219,11 @@ Responsive design for all devices
 	"zod": "^3.x.x",
 	"tailwindcss": "^3.x.x"
 }
+```
 
-🧪 Testing
+## 🧪 Testing
 
+```bash
 # Run all tests
 npm test
 
@@ -227,39 +232,47 @@ npm run test:watch
 
 # Run with coverage
 npm run test:coverage
+```
 
-🚨 Troubleshooting
-Common Issues
-1. AWS CLI Configuration Issues
+## 🚨 Troubleshooting
 
+### Common Issues
+
+#### 1. AWS CLI Configuration Issues
+
+```bash
 # Clear cache and retry
 rm -rf node_modules/.cache
 npm cache clean --force
 
 # Reconfigure AWS CLI
 aws configure
+```
 
-2. Bedrock Access Denied
+#### 2. Bedrock Access Denied
 
-Verify model access is granted in Bedrock console
-Ensure IAM user has AmazonBedrockFullAccess policy
-Confirm you're using the correct AWS region (us-east-1)
-Check your access keys are correct in .env.local
+- Verify model access is granted in Bedrock console
+- Ensure IAM user has `AmazonBedrockFullAccess` policy
+- Confirm you're using the correct AWS region (`us-east-1`)
+- Check your access keys are correct in `.env.local`
 
-3. Environment Variables Not Loading
+#### 3. Environment Variables Not Loading
 
-Ensure .env.local file is in the project root
-Restart the development server after changing .env.local
-Verify variable names start with VITE_
+- Ensure `.env.local` file is in the project root
+- Restart the development server after changing `.env.local`
+- Verify variable names start with `VITE_`
 
-4. Build or Runtime Errors
+#### 4. Build or Runtime Errors
 
+```bash
 # Clear everything and reinstall
 rm -rf node_modules package-lock.json
 npm install
+```
 
-Debug Commands
+### Debug Commands
 
+```bash
 # Check AWS credentials
 aws sts get-caller-identity
 
@@ -268,18 +281,35 @@ aws bedrock list-foundation-models --region us-east-1
 
 # Check environment variables
 echo $VITE_AWS_ACCESS_KEY
-
-📚 Resources
-AWS Documentation
-
-Amazon Bedrock Documentation
-Claude 3 Models
-AWS SDK for JavaScript
-
-Development Tools
-
-Vite Documentation
-React Hook Form
-Tailwind CSS
-Vitest Testing Framework
 ```
+
+## 📚 Resources
+
+### AWS Documentation
+
+- [Amazon Bedrock Documentation](https://docs.aws.amazon.com/bedrock/)
+- [Claude 3 Models](https://docs.anthropic.com/claude/docs)
+- [AWS SDK for JavaScript](https://docs.aws.amazon.com/sdk-for-javascript/)
+
+### Development Tools
+
+- [Vite Documentation](https://vitejs.dev/)
+- [React Hook Form](https://react-hook-form.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Vitest Testing Framework](https://vitest.dev/)
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## 🆘 Support
+
+- **Issues**: Create an issue in this repository
+- **AWS Support**: [AWS Support Center](https://console.aws.amazon.com/support/)
+- **Documentation**: [AWS Documentation](https://docs.aws.amazon.com/)
+
+---
+
+**Happy coding! 🎉**
+
+For questions or issues, please refer to the troubleshooting section or create an issue in this repository.
