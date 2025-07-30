@@ -1,0 +1,51 @@
+# Environment variables
+.env.local
+.env.*.local
+.env.production
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# VSCode
+
+**/.vscode
+
+# -------------------------------------------------------------------------
+# Tests
+# -------------------------------------------------------------------------
+tests/*/build
+tests/*/out
+tests/*/bin
+
+
+# Dependencies
+node_modules
+.nvmrc
+.pnp
+.pnp.js
+
+# Testing
+coverage
+
+.eslintcache
+
+# Production build
+/dist
+/build
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

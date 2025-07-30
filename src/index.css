@@ -1,0 +1,106 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700");
+@import url("https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700&display=swap");
+
+@import "tailwindcss";
+@tailwind utilities;
+
+:root {
+	--light-grey: #f5f5f5;
+	--dark-grey: #2f3a33;
+	--no-decoration: "none";
+	--thin-text: 300;
+	--regular-text: 400;
+	--medium-text: 500;
+	--semibold-text: 600;
+	--bold-text: 700;
+}
+
+* {
+	box-sizing: border-box;
+	outline: none;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+html,
+body,
+:root {
+	scroll-behavior: none;
+}
+@layer base {
+	html {
+		font-size: 62.5%;
+		-webkit-text-size-adjust: 100%;
+	}
+
+	html,
+	body {
+		width: 100%;
+		min-height: 100%;
+		overscroll-behavior: none;
+		scroll-behavior: auto;
+	}
+
+	body {
+		padding: 0;
+		margin: 0;
+		line-height: 1.5;
+		font-size: 1.6rem;
+		font-family: "Open Sans", sans-serif;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		background-color: var(--light-grey);
+		color: var(--dark-grey);
+		font-weight: var(--regular-text);
+		-webkit-text-size-adjust: 100%;
+		text-rendering: optimizeLegibility;
+		overflow-x: hidden;
+	}
+	a {
+		text-decoration: var(--no-decoration);
+		color: inherit;
+	}
+	button {
+		cursor: pointer;
+	}
+
+	h1 {
+		@apply font-semibold text-[3.4rem] mb-8 text-dark-grey sm:text-[4.8rem];
+	}
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "Oxanium", sans-serif;
+	line-height: 1.2;
+}
+
+@theme {
+	--text-xs: 1.2rem;
+	--text-base: 1.4rem;
+	--text-sm: 1.6rem;
+	--text-md: 1.8rem;
+	--text-lg: 3rem;
+	--text-xl: 4rem;
+	--text-2xl: 6rem;
+
+	--color-valencian-orange: #ff8300;
+	--color-dark-red: #e13404;
+	--color-light-grey: #f5f5f5;
+	--color-medium-grey: #cccccc;
+	--color-spinach-green: #3b7a57;
+	--color-berry-blue: #4f86f7;
+	--color-lemon-yellow: #fff700;
+	--color-black: #000;
+	--color-text-light: #e9e6df;
+	--color-text-grey: #a8a8a8;
+	--color-white: #fff;
+	--color-ring-dark: #2a3132;
+	--color-dark-blue: #00cccc;
+	--color-dark-navy: #202226;
+	--color-dark-grey: #272a2d;
+}
